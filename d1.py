@@ -8,8 +8,7 @@ str_to_int = {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 's
               'zero': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '0': 0}
 
 
-def first(lines: Iterable[str]) -> int:
-    group = '([0-9])'
+def extract(lines: Iterable[str], group: str) -> int:
     res = 0
     for line in lines:
         m = re.search(f'{group}.*$', line)
@@ -19,16 +18,13 @@ def first(lines: Iterable[str]) -> int:
     return res
 
 
-def second(lines: Iterable[str]) -> int:
-    group = '(one|two|three|four|five|six|seven|eight|nine|[0-9])'
-    res = 0
-    for line in lines:
-        m = re.search(f'{group}.*$', line)
-        res += str_to_int[m.group(1)] * 10
-        m = re.search(f'^.*{group}', line)
-        res += str_to_int[m.group(1)]
-    return res
+def first() -> int:
+    return extract(fetch_lines('d1.txt'), '([0-9])')
 
 
-print(first(fetch_lines('d1.txt')) == 55108)
-print(second(fetch_lines('d1.txt')) == 56324)
+def second() -> int:
+    return extract(fetch_lines('d1.txt'), '(one|two|three|four|five|six|seven|eight|nine|[0-9])')
+
+
+print(first() == 55108)
+print(second() == 56324)
