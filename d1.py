@@ -1,41 +1,34 @@
+import re
+
+from typing import Iterable
 from main import fetch_lines
 
-lines = fetch_lines('d1.txt')
-res = 0
-aa = {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'zero': 0}
-for line in lines:
-    #print(line)
-    for i, c in enumerate(line):
-        aaaa = False
-        for x in aa:
-            if x in line[:i+1]:
-                res += 10 * aa[x]
-                #print(aa[x])
-                aaaa = True
-                break
-        if aaaa:
-            break
 
-        if '0' <= c <= '9':
-            res += 10 * int(c)
-            #print(int(c))
-            break
-    for i, c in enumerate(line[::-1]):
-        aaaa = False
-        for x in aa:
-            #print(line[len(line)-i-1:])
-            if x in line[len(line)-i-1:]:
-                res += aa[x]
-                #print(aa[x])
-                aaaa = True
-                break
-        if aaaa:
-            break
+str_to_int = {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9,
+              'zero': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '0': 0}
 
-        if '0' <= c <= '9':
-            res += int(c)
-            #print(int(c))
-            break
 
-    #print()
-print(res)
+def first(lines: Iterable[str]) -> int:
+    group = '([0-9])'
+    res = 0
+    for line in lines:
+        m = re.search(f'{group}.*$', line)
+        res += str_to_int[m.group(1)] * 10
+        m = re.search(f'^.*{group}', line)
+        res += str_to_int[m.group(1)]
+    return res
+
+
+def second(lines: Iterable[str]) -> int:
+    group = '(one|two|three|four|five|six|seven|eight|nine|[0-9])'
+    res = 0
+    for line in lines:
+        m = re.search(f'{group}.*$', line)
+        res += str_to_int[m.group(1)] * 10
+        m = re.search(f'^.*{group}', line)
+        res += str_to_int[m.group(1)]
+    return res
+
+
+print(first(fetch_lines('d1.txt')) == 55108)
+print(second(fetch_lines('d1.txt')) == 56324)
