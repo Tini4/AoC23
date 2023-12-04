@@ -18,11 +18,11 @@ def extract(lines: Iterable[str], group: str) -> int:
 
 
 def first() -> int:
-    return extract(fetch_lines('d1.txt'), '([0-9])')
+    return extract(fetch_lines('d1.txt'), r'([0-9])')
 
 
 def second() -> int:
-    return extract(fetch_lines('d1.txt'), '(one|two|three|four|five|six|seven|eight|nine|[0-9])')
+    return extract(fetch_lines('d1.txt'), r'(one|two|three|four|five|six|seven|eight|nine|[0-9])')
 
 
 print(first() == 55108)
