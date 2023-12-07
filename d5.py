@@ -72,12 +72,5 @@ def second(lines: Iterator[str]) -> int:
     return min(old, key=lambda x: x[0])[0]
 
 
-test = """seeds: 0 10 5 9
-
-seed-to-soil map:
-100 5 5
-
-""".splitlines()
-
 print(first(fetch_lines('d5.txt')) == 261668924)
 print(second(fetch_lines('d5.txt')) == 24261545)
